@@ -48,6 +48,12 @@ if (isset($_SESSION['token'])) {
 <!-- Styling for your grid blocks -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colorbox.css" />
+<!-- include jQuery -->
+<script src="js/jquery-1.7.1.min.js"></script>
+<!-- Include the plug-in -->
+<script src="js/jquery.wookmark.js"></script>
+<script src="js/jquery.colorbox.js"></script>
+
 <style type="text/css">
 #nav_left_layout {
 	position: absolute;
@@ -57,6 +63,13 @@ if (isset($_SESSION['token'])) {
 	z-index: 100;
 }
 </style>
+<script>
+			$(document).ready(function(){
+				$(".ajax").colorbox();
+			    $(".iframe").colorbox({iframe:true, width:"700px", height:"500px"});
+			    $(".pic").colorbox({rel:'pic'});
+			});
+</script>
 </head>
 
 <body>
@@ -115,13 +128,7 @@ if (isset($_SESSION['token'])) {
 		<footer> </footer>
 	</div>
 
-	<!-- include jQuery -->
-	<script src="js/jquery-1.7.1.min.js"></script>
-
-	<!-- Include the plug-in -->
-	<script src="js/jquery.wookmark.js"></script>
-	<script src="js/jquery.colorbox.js"></script>
-
+	
 	<!-- Once the page is loaded, initalize the plug-in. -->
 	<script type="text/javascript">
  
@@ -153,7 +160,35 @@ if (isset($_SESSION['token'])) {
       itemWidth: 210 ,// Optional, the width of a grid item
       resizeDelay: 1000
     };
-    
+    var flag=false;
+    function DrawImage(ImgD,iwidth,iheight){
+        //参数(图片,允许的宽度,允许的高度)
+        var image=new Image();
+        image.src=ImgD.src;
+        if(image.width>0 && image.height>0){
+        flag=true;
+        if(image.width/image.height>= iwidth/iheight){
+            if(image.width>iwidth){  
+            ImgD.width=iwidth;
+            ImgD.height=(image.height*iwidth)/image.width;
+            }else{
+            ImgD.width=image.width;  
+            ImgD.height=image.height;
+            }
+            ImgD.alt=image.width+"×"+image.height;
+            }
+        else{
+            if(image.height>iheight){  
+            ImgD.height=iheight;
+            ImgD.width=(image.width*iheight)/image.height;        
+            }else{
+            ImgD.width=image.width;  
+            ImgD.height=image.height;
+            }
+            ImgD.alt=image.width+"×"+image.height;
+            }
+        }
+    } 
     /**
      * When scrolled all the way to the bottom, add more tiles.
      */
@@ -178,7 +213,11 @@ if (isset($_SESSION['token'])) {
     function applyLayout() {
       // Clear our previous layout handler.
       if(handler) handler.wookmarkClear();
-      
+      $("li img").each(function(){
+    	   if($(this).width() > $(this).parent().width()) {
+    	    $(this).width("100%");
+    	  }
+    	});
       // Create a new layout handler.
       handler = $('#tiles li');
       handler.wookmark(options);
@@ -194,7 +233,7 @@ if (isset($_SESSION['token'])) {
       $.ajax({
         url: apiURL,
         dataType: 'jsonp',
-        data: {page: page,access_token: access_token}, // Page parameter to make sure we load new data
+        data: {page: page,access_token: access_token,count:100}, // Page parameter to make sure we load new data
         success: onLoadData
       });
     };
@@ -221,8 +260,10 @@ if (isset($_SESSION['token'])) {
         html += '<li class="last">';
         
         // Image tag (preview in Wookmark are 200px wide, so we calculate the height based on that).
-        if('original_pic' in image){
-        html += '<img src="'+image.original_pic+'" width="200" height="200">';
+        if('thumbnail_pic' in image){
+        //html += '<img src="'+image.thumbnail_pic+'" onload="javascript:DrawImage(this,200,500)">';
+        //<a class="group1" href="../content/ohoopee1.jpg" title="Me and my grandfather on the Ohoopee.">Grouped Photo 1</a>
+        	html += '<a class="pic" href="'+image.original_pic+'"> <img src="'+image.thumbnail_pic+'"> </a>';
         }
         // Image title.
         html += '<p>'+image.text+'</p>';
@@ -274,9 +315,7 @@ if (isset($_SESSION['token'])) {
       // Capture scroll event.
       $(document).bind('scroll', onScroll);
       $("#nav_left_layout").fadeIn(1000);
-      $(".ajax").colorbox();
-      $(".iframe").colorbox({iframe:true, width:"700px", height:"500px"});
-
+      
       $("#nav_left_layout").smartFloat();
       // Load first data from the API.
       loadData();
