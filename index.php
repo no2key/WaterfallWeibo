@@ -129,8 +129,21 @@ if (isset($_SESSION['token'])) {
     var handler = null;
     var page = 1;
     var isLoading = false;
-    var apiURL = 'https://api.weibo.com/2/statuses/home_timeline.json'
-    var access_token = '<?=$_SESSION['token']['access_token']?>'
+    
+    <?php
+	if (!isset($uid)) {
+	?>
+	var apiURL = 'https://api.weibo.com/2/statuses/public_timeline.json'
+	var access_token =null;
+    <?php
+	} else {
+	?>
+	var apiURL = 'https://api.weibo.com/2/statuses/home_timeline.json'
+	var access_token = '<?=$_SESSION['token']['access_token']?>'
+	<?php
+	}
+	?>
+    
     var result = null;
     // Prepare layout options.
     var options = {
@@ -208,8 +221,9 @@ if (isset($_SESSION['token'])) {
         html += '<li class="last">';
         
         // Image tag (preview in Wookmark are 200px wide, so we calculate the height based on that).
+        if('original_pic' in image){
         html += '<img src="'+image.original_pic+'" width="200" height="200">';
-        
+        }
         // Image title.
         html += '<p>'+image.text+'</p>';
         
@@ -269,6 +283,6 @@ if (isset($_SESSION['token'])) {
  
     });
   </script>
-	
+
 </body>
 </html>
