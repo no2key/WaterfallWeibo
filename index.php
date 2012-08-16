@@ -57,17 +57,17 @@ if (isset($_SESSION['token'])) {
 <style type="text/css">
 #nav_left_layout {
 	position: absolute;
-	height: 80px;
+	height: 50px;
 	width: 100%;
 	background: #dedede;
-	z-index: 100;
+	z-index: 9;
 }
 </style>
 <script>
 			$(document).ready(function(){
 				$(".ajax").colorbox();
 			    $(".iframe").colorbox({iframe:true, width:"700px", height:"500px"});
-			    $(".pic").colorbox({rel:'pic'});
+			   
 			});
 </script>
 </head>
@@ -75,13 +75,9 @@ if (isset($_SESSION['token'])) {
 <body>
 
 	<div id="container">
-		<div height="100px" width="100%">
-			<H1>Test</H1>
-		</div>
-		<header id="nav_left_layout" style="display: none;">
-			<h1>jQuery Wookmark Plug-in API Example</h1>
+		<header id="nav_left_layout">
+			<h1>Waterfall WeiBo</h1>
 			<p>
-				Scroll down to see more content loaded via the
 				<?php
 				if (!isset($uid)) {
 					?>
@@ -206,6 +202,7 @@ if (isset($_SESSION['token'])) {
 
     function closeDialog(){
       $("#colorbox").colorbox.close();
+      location.reload();
     }
     /**
      * Refreshes the layout.
@@ -213,14 +210,16 @@ if (isset($_SESSION['token'])) {
     function applyLayout() {
       // Clear our previous layout handler.
       if(handler) handler.wookmarkClear();
-      $("li img").each(function(){
+      /*$("li img").each(function(){
     	   if($(this).width() > $(this).parent().width()) {
     	    $(this).width("100%");
     	  }
     	});
+    	*/
       // Create a new layout handler.
       handler = $('#tiles li');
       handler.wookmark(options);
+      $(".pic").colorbox({rel:'pic'});
     };
     
     /**
