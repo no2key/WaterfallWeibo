@@ -24,7 +24,7 @@ if (isset($_SESSION['token'])) {
 
 
 ?>
-<!doctype html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
 <!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
@@ -53,6 +53,7 @@ if (isset($_SESSION['token'])) {
 <!-- Include the plug-in -->
 <script src="js/jquery.wookmark.js"></script>
 <script src="js/jquery.colorbox.js"></script>
+<script src="js/jquery.imagesloaded.min.js"></script>
 
 <style type="text/css">
 #nav_left_layout {
@@ -217,9 +218,18 @@ if (isset($_SESSION['token'])) {
     	});
     	*/
       // Create a new layout handler.
-      handler = $('#tiles li');
-      handler.wookmark(options);
-      $(".pic").colorbox({rel:'pic'});
+      var dfd = $('#tiles').imagesLoaded();
+      dfd.always( function(){
+    		  console.log( 'all images has finished with loading, do some stuff...' );
+    		  handler = $('#tiles li');
+    	      handler.wookmark(options);
+    	      $(".pic").colorbox({rel:'pic'});
+    	      $("li.last").hide().fadeIn(1000,function(){
+    	          $("li.last").removeClass("last");
+    	        });
+    	      isLoading = false;
+    	}); 
+      
     };
     
     /**
@@ -241,7 +251,7 @@ if (isset($_SESSION['token'])) {
      * Receives data from the API, creates HTML for images and updates the layout
      */
     function onLoadData(data) {
-      isLoading = false;
+      
       $('#loaderCircle').hide();
       
       // Increment page index for future calls.
@@ -262,7 +272,7 @@ if (isset($_SESSION['token'])) {
         if('thumbnail_pic' in image){
         //html += '<img src="'+image.thumbnail_pic+'" onload="javascript:DrawImage(this,200,500)">';
         //<a class="group1" href="../content/ohoopee1.jpg" title="Me and my grandfather on the Ohoopee.">Grouped Photo 1</a>
-        	html += '<a class="pic" href="'+image.original_pic+'"> <img src="'+image.thumbnail_pic+'"> </a>';
+        	html += '<div class="img_box" ><a class="pic" href="'+image.original_pic+'"> <img src="'+image.thumbnail_pic+'"> </a></div>';
         }
         // Image title.
         html += '<p>'+image.text+'</p>';
@@ -276,9 +286,7 @@ if (isset($_SESSION['token'])) {
       $('#tiles').append(html);
       // Apply layout.
       applyLayout();
-      $("li.last").hide().fadeIn(1000,function(){
-        $("li.last").removeClass("last");
-      });
+      
 
     };
     $.fn.smartFloat = function() {

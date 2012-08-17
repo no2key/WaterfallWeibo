@@ -27,6 +27,12 @@ padding: 4px;
 display: block;
 }
 
+#tiles li div {
+	 width: %100;
+	 MARGIN-RIGHT: auto; 
+	 MARGIN-LEFT: auto; 
+}
+
 /**
  * Grid item text
  */
