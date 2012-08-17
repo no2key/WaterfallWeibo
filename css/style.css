@@ -1,3 +1,18 @@
+.screen_name {
+	color: #2F7492;
+	font-size: medium;
+}
+
+.weibo_text {
+color: #2F7492;
+font-size: medium;
+}
+.retweeted_text {
+	color: #2F7492;
+    font-size: medium;
+	background-color: #DBDBDB;
+	padding:5px;
+}
 
 /**
  * Grid container
@@ -27,22 +42,22 @@ padding: 4px;
 display: block;
 }
 
-#tiles li div {
+/* #tiles li div {
 	 width: %100;
 	 MARGIN-RIGHT: auto; 
 	 MARGIN-LEFT: auto; 
 }
-
+ */
 /**
  * Grid item text
- */
+ 
 #tiles li p {
 color: #666;
 font-size: 11px;
 line-height: 16px;
 margin: 6px 0 1px 7px;
 }
-
+*/
 /** General page styling **/
   
 html {
@@ -78,6 +93,13 @@ margin: 0;
 #loaderCircle {
   width: 16px;
   height: 16px;
-margin: 0 auto;
+  margin: 0 auto;
   background-image: url('../images/loader.gif');
 }
+
+body {
+background-image: url(../images/body_bg.gif);
+font: 62.5%/160% "Microsoft JhengHei","Î¢Ü›ÕýºÚów","Microsoft YaHei","Î¢ÈíÑÅºÚ",Verdana, Arial, Helvetica, sans-serif;
+font-family: arial,sans-serif;
+}
+

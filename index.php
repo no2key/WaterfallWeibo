@@ -267,16 +267,20 @@ if (isset($_SESSION['token'])) {
       for(; i<length; i++) {
         image = statuses[i];
         html += '<li class="last">';
+        //user name
+        html += '<p class="screen_name">'+image.user.screen_name+'</p>';
         
         // Image tag (preview in Wookmark are 200px wide, so we calculate the height based on that).
         if('thumbnail_pic' in image){
         //html += '<img src="'+image.thumbnail_pic+'" onload="javascript:DrawImage(this,200,500)">';
         //<a class="group1" href="../content/ohoopee1.jpg" title="Me and my grandfather on the Ohoopee.">Grouped Photo 1</a>
-        	html += '<div class="img_box" ><a class="pic" href="'+image.original_pic+'"> <img src="'+image.thumbnail_pic+'"> </a></div>';
+        	html += '<a class="pic" href="'+image.original_pic+'"> <img src="'+image.thumbnail_pic+'"> </a>';
         }
         // Image title.
-        html += '<p>'+image.text+'</p>';
-        
+        html += '<p class="weibo_text">'+image.text+'</p>';
+        if('retweeted_status' in image){
+        html += '<p class="retweeted_text">'+image.retweeted_status.text+'</p>';
+        }
         html += '</li>';
       }
       
