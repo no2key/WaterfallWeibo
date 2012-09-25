@@ -153,8 +153,8 @@ if (isset($_SESSION['token'])) {
     var options = {
       autoResize: true, // This will auto-update the layout when the browser window is resized.
       container: $('#tiles'), // Optional, used for some extra CSS styling
-      offset: 2, // Optional, the distance between grid items
-      itemWidth: 210 ,// Optional, the width of a grid item
+      offset: 5, // Optional, the distance between grid items
+      itemWidth: 310 ,// Optional, the width of a grid item
       resizeDelay: 1000
     };
     var flag=false;
@@ -269,17 +269,23 @@ if (isset($_SESSION['token'])) {
         html += '<li class="last">';
         //user name
         html += '<p class="screen_name">'+image.user.screen_name+'</p>';
-        
+        html += '<p class="label"></p>';
+        html += '<p class="weibo_text">'+image.text+'</p>';
+        if('retweeted_status' in image){
+        html += '<p class="retweeted_text">'+image.retweeted_status.text+'</p>';
+        }
         // Image tag (preview in Wookmark are 200px wide, so we calculate the height based on that).
         if('thumbnail_pic' in image){
         //html += '<img src="'+image.thumbnail_pic+'" onload="javascript:DrawImage(this,200,500)">';
         //<a class="group1" href="../content/ohoopee1.jpg" title="Me and my grandfather on the Ohoopee.">Grouped Photo 1</a>
         	html += '<a class="pic" href="'+image.original_pic+'"> <img src="'+image.thumbnail_pic+'"> </a>';
         }
+        /*if('retweeted_status' in image && 'thumbnail_pic' in image.retweeted_status){
+        	html += '<a class="pic" href="'+image.retweeted_status.original_pic+'"> <img src="'+image.retweeted_status.thumbnail_pic+'"> </a>';
+        }*/
         // Image title.
-        html += '<p class="weibo_text">'+image.text+'</p>';
-        if('retweeted_status' in image){
-        html += '<p class="retweeted_text">'+image.retweeted_status.text+'</p>';
+        if('retweeted_status' in image && 'thumbnail_pic' in image.retweeted_status){
+            	html += '<div width="100%" class="retweeted_pic"><a class="pic" href="'+image.retweeted_status.original_pic+'"> <img src="'+image.retweeted_status.thumbnail_pic+'"> </a></div>';
         }
         html += '</li>';
       }

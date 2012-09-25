@@ -1,17 +1,32 @@
+
 .screen_name {
 	color: #2F7492;
 	font-size: medium;
+	border-width:0px;
+	border-style:none;
+	margin:0px;
 }
 
 .weibo_text {
-color: #2F7492;
-font-size: medium;
+	color: #2F7492;
+	font-size: medium;
+	margin:2px 0 2px 0;
 }
+
 .retweeted_text {
 	color: #2F7492;
     font-size: medium;
 	background-color: #DBDBDB;
 	padding:5px;
+	margin:2px 0 2px 0;
+}
+.label {
+	width: 100%;
+	height: 5px;
+	background-color: #FCD730;
+	border-width:0px;
+	border-style:none;
+	margin:0px;
 }
 
 /**
@@ -27,7 +42,7 @@ margin: 0;
  * Grid items
  */
 #tiles li {
-width: 200px;
+width: 300px;
 background-color: #ffffff;
 border: 1px solid #dedede;
 -moz-border-radius: 2px;
@@ -99,7 +114,7 @@ margin: 0;
 
 body {
 background-image: url(../images/body_bg.gif);
-font: 62.5%/160% "Microsoft JhengHei","Î¢Ü›ÕýºÚów","Microsoft YaHei","Î¢ÈíÑÅºÚ",Verdana, Arial, Helvetica, sans-serif;
+font: 62.5%/160% "Microsoft JhengHei","å¾®è»Ÿæ­£é»‘é«”","Microsoft YaHei","å¾®è½¯é›…é»‘",Verdana, Arial, Helvetica, sans-serif;
 font-family: arial,sans-serif;
 }
 
