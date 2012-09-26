@@ -121,6 +121,26 @@ if (isset($_SESSION['token'])) {
      * Simple example of extending the SQLite3 class and changing the __construct
      * parameters, then using the open method to initialize the DB.
      */
+	 /* 
+	  * create a SQLite3 handle. 
+	  * 
+	  * Note: in-memory database are created by the magic keyword ":memory:" 
+	  * 
+	  */ 
+	  class MyDB extends SQLite3
+	  {
+	      function __construct()
+	      {
+	          $this->open('db/users.db');
+	      }
+	  }
+	  $db = new MyDB();
+
+	  $db->exec('CREATE TABLE foo (bar STRING)');
+	  $db->exec("INSERT INTO foo (bar) VALUES ('This is a test')");
+
+	  $result = $db->query('SELECT bar FROM foo'); 
+	 
      $dbh = new PDO('sqlite:Mfile.db');
      if ($dbh){
      echo 'OK';
