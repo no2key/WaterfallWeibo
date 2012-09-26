@@ -15,7 +15,8 @@ if (isset($_SESSION['token'])) {
 		print_r($uid_get);
 	}else{
 
-		$ms  = $c->home_timeline(); // done
+		$ms  = $c->query_busline('79','0755'); // done
+    //print_r($ms);
 		$uid = $uid_get['uid'];
 		$user_message = $c->show_user_by_id( $uid);//根据ID获取用户等基本信息
 
@@ -108,7 +109,70 @@ if (isset($_SESSION['token'])) {
 				}
 			}
 			?>
-		
+		<?php if( is_array( $ms['lines'] ) ): ?>
+    <?php foreach( $ms['lines'] as $item ): ?>
+    <div style="padding:10px;margin:5px;border:1px solid #ccc">
+      <?=$item['name'];?>-全程<?=$item['length'];?>
+    </div>
+    <?php endforeach; ?>
+    <?php endif; ?>
+    <?php
+    /**
+     * Simple example of extending the SQLite3 class and changing the __construct
+     * parameters, then using the open method to initialize the DB.
+     */
+     $dbh = new PDO('sqlite:Mfile.db');
+     if ($dbh){
+     echo 'OK';
+     }else{
+     echo 'Err';
+     }
+     
+     foreach ($dbh->query('SELECT Name, Length FROM BusLineTable;') as $row)
+     {
+     echo $row[0];
+     }
+     
+    // public function lastInsertId() {
+    // $result = $dbh->query('SELECT last_insert_rowid() as last_insert_rowid')->fetch();
+    // return $result['last_insert_rowid'];
+    // }
+
+    ?>
+
+    <?php
+try {
+   $dbh = new PDO('sqlite:users.db');
+
+   $dbh->query("INSERT INTO users (username,country) VALUES ('lsw','CN')");
+   // $smf = $dbh->prepare("INSERT INTO users (username,country) VALUES (:username,:country)");
+  
+   // $colour = 'red'  ; 
+   // $smf->bindValue(':username', 'lsw');
+   // $smf->bindValue(':country', 'lsw');
+   // $smf->execute();
+   print $dbh->lastInsertId().'<br />';
+   // $second = 'lsw1';
+   // $smf->bindValue(':username', 'lsw1');
+   // $smf->bindValue(':country', 'lsw1');
+   // $smf->execute();
+   $dbh->query("INSERT INTO users (username,country) VALUES ('lsw1','CN')");
+   print $dbh->lastInsertId();
+
+ foreach ($dbh->query('SELECT username, country FROM users;') as $row)
+     {
+     echo $row[0];
+     }
+
+   $dbh = null;
+} catch (PDOException $e) {
+  echo $e->getMessage();
+   print "Error!: " . $e->getMessage() . "<br/>";
+   die();
+}
+?> 
+
+
 		</header>
 		<div id="main" role="main">
 
@@ -330,12 +394,12 @@ if (isset($_SESSION['token'])) {
   
     $(document).ready(new function() {
       // Capture scroll event.
-      $(document).bind('scroll', onScroll);
-      $("#nav_left_layout").fadeIn(1000);
+      //$(document).bind('scroll', onScroll);
+      //$("#nav_left_layout").fadeIn(1000);
       
-      $("#nav_left_layout").smartFloat();
+      //$("#nav_left_layout").smartFloat();
       // Load first data from the API.
-      loadData();
+      //loadData();
  
     });
   </script>

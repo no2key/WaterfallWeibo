@@ -503,6 +503,29 @@ class SaeTClientV2
 	}
 
 	/**
+	 * 获取最新的公共微博消息
+	 *
+	 * 对应API：{@link http://open.weibo.com/wiki/2/statuses/public_timeline statuses/public_timeline}
+	 *
+	 * @access public
+	 * @param int $count 单页返回的记录条数，默认为50。
+	 * @param int $page 返回结果的页码，默认为1。
+	 * @param int $base_app 是否只获取当前应用的数据。0为否（所有数据），1为是（仅当前应用），默认为0。
+	 * @return array
+	 */
+	function query_busline($q ,$city = '0755', $page = 1, $count = 50)
+	{
+		$params = array();
+		$params['count'] = intval($count);
+		$params['page'] = intval($page);
+		$params['q'] = $q;
+		$params['city'] = $city;
+		return $this->oauth->get('location/line/bus_line', $params);//可能是接口的bug不能补全
+	}
+
+
+
+	/**
 	 * 获取当前登录用户及其所关注用户的最新微博消息。
 	 *
 	 * 获取当前登录用户及其所关注用户的最新微博消息。和用户登录 http://weibo.com 后在“我的首页”中看到的内容相同。同friends_timeline()
