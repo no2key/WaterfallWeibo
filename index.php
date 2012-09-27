@@ -19,8 +19,107 @@ if (isset($_SESSION['token'])) {
     //print_r($ms);
 		$uid = $uid_get['uid'];
 		$user_message = $c->show_user_by_id( $uid);//根据ID获取用户等基本信息
+		
+  	  
 
 	}
+}
+class MyDB extends SQLite3
+{
+    function __construct()
+    {
+        $this->open('db/Mfile.db');
+    }
+}
+$db = new MyDB();
+/*
+CREATE TABLE [BusLineTable] (
+  [_id] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+ 
+  [Air] BOOLEAN,
+ 
+  [Auto] BOOLEAN,
+ 
+  [BasicPrice] FLOAT,
+ 
+  [CommunicationTicket] BOOLEAN,
+ 
+  [Company] TEXT,
+ 
+  [DataSource] INT,
+ 
+  [Description] TEXT,
+ 
+  [EndTime] TEXT,
+ 
+  [FrontName] TEXT,
+ 
+  [FrontSpell] TEXT,
+ 
+  [KeyName] TEXT,
+ 
+  [Length] FLOAT,
+ 
+  [LineId] TEXT,
+ 
+  [Name] TEXT,
+ 
+  [Speed] FLOAT,
+ 
+  [StartTime] TEXT,
+ 
+  [Status] INT,
+ 
+  [TerminalName] TEXT,
+ 
+  [TerminalSpell] TEXT,
+ 
+  [TotalPrice] FLOAT,
+ 
+  [Type] INT,
+ 
+  [IsDoubleDeck] BOOLEAN,
+ 
+  [IsExpressWay] BOOLEAN,
+ 
+  [IsIcCard] BOOLEAN,
+ 
+  [IsLoop] BOOLEAN)
+  
+  coordinates
+  
+  "air": "0",
+  			"auto": "0",
+  			"basic_price": "2",
+  			"city": "0755",
+  			"commutation_ticket": "0",
+  			"company": "深圳巴士集团股份有限公司鹏翔客运公司",
+			"description": "深圳巴士集团股份有限公司鹏翔客运",
+						"double_deck": "0",
+						"end_time": "21:30",
+						"express_way": "0",
+						"front_name": "清水河总站",
+						"front_spell": "\"qing shui he zong zhan\"",
+						"ic_card": "0",
+						"key_name": "79路",
+						"length": "30.582",
+						"name": "79路(清水河总站--东角头总站)",
+						"service_period": "",
+						"start_time": "06:30",
+						"status": "1",
+									"terminal_name": "东角头总站",
+									"terminal_spell": "\"dong jiao tou zong zhan\"",
+									"time_desc": "",
+									"total_price": "7",
+									"type": "1"
+  */
+//$db->exec('CREATE TABLE foo (bar STRING)');
+foreach ($ms['lines'] as $item) {
+   
+	//$db->exec("INSERT INTO BusLineTable (Air,Auto,BasicPrice,CommunicationTicket,Company,DataSource,Description,StartTime,EndTime,FrontName,FrontSpell,KeyName,Length,Name,Status,TerminalName,TerminalSpell,TotalPrice,Type,IsDoubleDeck,IsExpressWay,IsIcCard,Coordinates) VALUES ({$item['air']},{$item['auto']},{$item['basic_price']}),{$item['commutation_ticket']},{$item['company']},'sina_Weibo',{$item['description']},{$item['start_time']},{$item['end_time']},{$item['front_name']},{$item['front_spell']},{$item['key_name']},{$item['length']},{$item['name']},{$item['status']},{$item['terminal_name']},{$item['terminal_spell']},{$item['total_price']},{$item['type']},{$item['double_deck']},{$item['express_way']},{$item['ic_card']},{$item['coordinates']})");
+	echo "INSERT INTO BusLineTable (Air) VALUES ({$item['air']})";
+	$db->exec("INSERT INTO BusLineTable (Air) VALUES ({$item['air']})");
+	echo $db->lastInsertRowID().'</p>';	
 }
 
 
@@ -127,31 +226,7 @@ if (isset($_SESSION['token'])) {
 	  * Note: in-memory database are created by the magic keyword ":memory:" 
 	  * 
 	  */ 
-	  class MyDB extends SQLite3
-	  {
-	      function __construct()
-	      {
-	          $this->open('db/users.db');
-	      }
-	  }
-	  $db = new MyDB();
-
-	  $db->exec('CREATE TABLE foo (bar STRING)');
-	  $db->exec("INSERT INTO foo (bar) VALUES ('This is a test')");
-
-	  $result = $db->query('SELECT bar FROM foo'); 
-	 
-     $dbh = new PDO('sqlite:Mfile.db');
-     if ($dbh){
-     echo 'OK';
-     }else{
-     echo 'Err';
-     }
-     
-     foreach ($dbh->query('SELECT Name, Length FROM BusLineTable;') as $row)
-     {
-     echo $row[0];
-     }
+	  
      
     // public function lastInsertId() {
     // $result = $dbh->query('SELECT last_insert_rowid() as last_insert_rowid')->fetch();
@@ -160,37 +235,7 @@ if (isset($_SESSION['token'])) {
 
     ?>
 
-    <?php
-try {
-   $dbh = new PDO('sqlite:users.db');
-
-   $dbh->query("INSERT INTO users (username,country) VALUES ('lsw','CN')");
-   // $smf = $dbh->prepare("INSERT INTO users (username,country) VALUES (:username,:country)");
-  
-   // $colour = 'red'  ; 
-   // $smf->bindValue(':username', 'lsw');
-   // $smf->bindValue(':country', 'lsw');
-   // $smf->execute();
-   print $dbh->lastInsertId().'<br />';
-   // $second = 'lsw1';
-   // $smf->bindValue(':username', 'lsw1');
-   // $smf->bindValue(':country', 'lsw1');
-   // $smf->execute();
-   $dbh->query("INSERT INTO users (username,country) VALUES ('lsw1','CN')");
-   print $dbh->lastInsertId();
-
- foreach ($dbh->query('SELECT username, country FROM users;') as $row)
-     {
-     echo $row[0];
-     }
-
-   $dbh = null;
-} catch (PDOException $e) {
-  echo $e->getMessage();
-   print "Error!: " . $e->getMessage() . "<br/>";
-   die();
-}
-?> 
+   
 
 
 		</header>
